@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { cardData } from '../constants/fakeData';
 import { Colors } from '../constants/Colors';
 
 function Card({ cohort, projectName, names }) {
-
+    const navigation = useNavigation();
     const renderedNames = () => {
         return names.map(name => {
             return <Text
@@ -14,7 +15,10 @@ function Card({ cohort, projectName, names }) {
         )
     }
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => navigation.push('DetailsScreen')}
+        >
             <View style={styles.topSection}>
 
                 <Text style={styles.corhortNum}>{cohort}</Text>
@@ -27,7 +31,7 @@ function Card({ cohort, projectName, names }) {
 
 
 
-        </View>
+        </TouchableOpacity>
     )
 
 };
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flex: 1,
         flexDirection: 'column',
-        
+
         shadowOffset: {
             width: 20,
             height: 20

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import ListContainer from '../components/ListContainer';
 
-function HomeView() {
+function HomeScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>EvolveU Projects</Text>
@@ -11,7 +11,7 @@ function HomeView() {
     )
 }
 
-export default HomeView;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
