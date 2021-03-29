@@ -40,3 +40,4 @@ export const cardData = [
     }
 ]
 
+export const listProjectNum = ['Project 1 (Online Resume)', 'Project 2 (Full Stack)'];
