@@ -1,30 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { Colors } from '../constants/Colors';
+import Base64 from './Base64';
 
-function DisplayScreenshot() {
-    const [screenshot]
+function DisplayScreenshot({ screenshot }) {
+    const [screenshotBase64, setScreenshotBase64] = useState(null);
     const convertToBase64 = (arrayBuffer) => {
         let u8 = new Uint8Array(arrayBuffer)
-        let b64encoded = btoa([].reduce.call(new Uint8Array(arrayBuffer), function (p, c) { return p + String.fromCharCode(c) }, ''))
+        // let b64encoded = btoa([].reduce.call(new Uint8Array(arrayBuffer), function (p, c) { return p + String.fromCharCode(c) }, ''))
+        let b64encoded = Base64.btoa([].reduce.call(new Uint8Array(arrayBuffer), function (p, c) { return p + String.fromCharCode(c) }, ''));
         // let mimetype = "image/jpeg"
         // return "data:" + mimetype + ";base64," + b64encoded
         return b64encoded
     }
 
     useEffect(() => {
-        if (props && props.img) {
-//         // console.log('image in screenshot comp', props.img.img.data.data)
-//         setScreenshotBase64(convertToBase64(props.img.img.data.data))
-//     }
+        if (screenshot && screenshot.img) {
+            setScreenshotBase64(convertToBase64(screenshot.img.data.data))
+        }
     }, [])
 
+    if (!screenshotBase64) return null;
+
     return (
-        <View>
+        <View style={styles.container}>
+            <Text style={styles.subSection}>Screenshot</Text>
             <Image
                 style={styles.image}
                 source={{
-                    // uri: 'https://images-na.ssl-images-amazon.com/images/G/01/US-hq/2018/img/PC_Hardware/XCM_1095776_Manual_750x375_1095776_us_pc_hardware_pcit_maincomputersstorefront_tablets_v3_cg_750x375_jpg_PCIT_PCIT_mainComputersStorefront_Additional_Stock_photos.jpg'
-                    uri: `data:image/png;base64,${screenshot}`
+                    uri: `data:image/png;base64,${screenshotBase64}`
                 }}
             />
         </View>
@@ -33,10 +37,22 @@ function DisplayScreenshot() {
 
 export default DisplayScreenshot;
 
-
-// return (
-//     <div className='mt-3 mb-4'>
-//         <h3 className="">Screenshot</h3>
-//         <img
-//             className=""
-//             src={`data:image/png;base64,${screenshotBase64}`} />
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        flex: 1,
+        justifyContent: 'center'
+    },
+    subSection: {
+        textDecorationLine: 'underline',
+        color: Colors.title,
+        marginTop: 10,
+        fontSize: 20
+    },
+    image: {
+        width: '80%',
+        height: '100%',
+        padding: 0
+    }
+})

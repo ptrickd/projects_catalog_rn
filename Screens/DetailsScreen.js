@@ -21,8 +21,8 @@ function DetailsScreen({ route }) {
             fetch(`${config.SERVER.URL}/api/image/${project.screenshotId}`)
                 .then(resp => resp.json())
                 .then(data => {
-                    console.log(data.img)
-                    setScreenshot(data.img.data.data)
+                    // console.log(data.img)
+                    setScreenshot(data)
                 })
                 .catch(err => console.log('err=>>', err))
         }
@@ -45,7 +45,9 @@ function DetailsScreen({ route }) {
                     <Text style={styles.textStyle}>{project.team_name}</Text>
                 </>}
 
-                {screenshot && <DisplayScreenshot />}
+                {<DisplayScreenshot
+                    screenshot={screenshot}
+                />}
 
                 <Text style={styles.subSection}>Description</Text>
                 <Text style={styles.textStyle}>{project.description}</Text>
@@ -137,10 +139,5 @@ const styles = StyleSheet.create({
     },
     item: {
         color: Colors.text
-    },
-    image: {
-        width: '80%',
-        height: '30%',
-        padding: 10
     }
 })
