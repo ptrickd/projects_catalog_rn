@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         width: '96%',
         padding: 10,
         marginTop: 10,
-        borderColor: 'black',
+        borderColor: Colors.text,
         borderStyle: 'solid',
         borderWidth: 1,
         borderRadius: 10,
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+
     },
     projectName: {
         color: Colors.text
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
         color: Colors.text
     },
     name: {
-        margin: 5
+        margin: 5,
+        color: Colors.text
     }
 
 });

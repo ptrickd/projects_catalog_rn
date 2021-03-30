@@ -15,9 +15,9 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
-        marginLeft: 30,
-        marginRight: 30,
-        marginTop: 40,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
         marginBottom: 20,
         padding: 20,
         flex: 1,
