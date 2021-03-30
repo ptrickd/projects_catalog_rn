@@ -4,9 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { cardData } from '../constants/fakeData';
 import { Colors } from '../constants/Colors';
 
-function Card({ cohort, projectName, names }) {
+function Card({ cohort, projectName, names, id }) {
     const navigation = useNavigation();
     const renderedNames = () => {
+
         return names.map(name => {
             return <Text
                 style={styles.name}
@@ -17,7 +18,9 @@ function Card({ cohort, projectName, names }) {
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => navigation.push('DetailsScreen')}
+            onPress={() => navigation.navigate('DetailsScreen', {
+                projectId: id
+            })}
         >
             <View style={styles.topSection}>
 

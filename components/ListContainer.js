@@ -21,9 +21,11 @@ function ListContainer() {
     }, [])
     const renderedCards = (projectNum) => {
         return projects.map((card, index) => {
+            // console.log('card._id', card._id)
             if (projectNum === card.project_num) {
                 return <Card
                     key={index}
+                    id={card._id}
                     names={card.name_team_member}
                     cohort={card.cohort_num}
                     projectName={card.project_name}
