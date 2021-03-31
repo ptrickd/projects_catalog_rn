@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
         width: '96%',
         padding: 10,
         marginTop: 10,
-        borderColor: Colors.text,
+        backgroundColor: Colors.text,
+        // borderColor: Colors.text,
         borderStyle: 'solid',
         borderWidth: 1,
         borderRadius: 10,
@@ -73,14 +74,14 @@ const styles = StyleSheet.create({
 
     },
     projectName: {
-        color: Colors.text
+        color: 'white'//Colors.text
     },
     corhortNum: {
-        color: Colors.text
+        color: 'white'//Colors.text
     },
     name: {
         margin: 5,
-        color: Colors.text
+        color: 'white'//Colors.text
     }
 
 });

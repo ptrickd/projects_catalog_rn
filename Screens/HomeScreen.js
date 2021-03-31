@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import ListContainer from '../components/ListContainer';
-
+//https:/ / www.youtube.com / watch ? v = gvF6sFIPfsQ
+//auth with context
 function HomeScreen() {
     return (
         <View style={styles.container}>

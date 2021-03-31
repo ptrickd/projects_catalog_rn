@@ -18,15 +18,14 @@ function DetailsScreen({ route }) {
             .catch(err => console.log('err:: ', err))
     }, [])
     useEffect(() => {
-        if (project && project.screenshotId && project.screenshotId.length) {
-            fetch(`${config.SERVER.URL}/api/image/${project.screenshotId}`)
-                .then(resp => resp.json())
-                .then(data => {
-                    // console.log(data.img)
-                    setScreenshot(data)
-                })
-                .catch(err => console.log('err=>>', err))
-        }
+        fetch(`${config.SERVER.URL}/api/image/${project.screenshotId}`)
+            .then(resp => resp.json())
+            .then(data => {
+                // console.log(data.img)
+                setScreenshot(data)
+            })
+            .catch(err => console.log('err=>>', err))
+
     }, [project])
 
     const convertToBase64 = (arrayBuffer) => {
