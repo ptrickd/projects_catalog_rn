@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import Button from '../components/Button';
 import { Colors } from '../constants/Colors';
 import { AuthContext } from '../components/context';
 
@@ -9,9 +10,6 @@ function SignInScreen() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('');
 
-    // useEffect(() => {
-    //     console.log(text)
-    // }, [text])
 
     return (
         <View style={styles.container}>
@@ -30,7 +28,7 @@ function SignInScreen() {
                     value={password}
                     onChangeText={setPassword}
                 />
-                <Button title="Sign In" style={styles.button} onPress={() => signIn(username, password)} />
+                <Button title="Sign In" onPress={() => signIn(username, password)} />
             </View>
         </View>
     )
@@ -74,8 +72,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: Colors.text,
         borderColor: Colors.text,
-        borderWidth: 3,
-        borderRadius: 10
+        borderBottomWidth: 1
     },
     button: {
         paddingLeft: 40,

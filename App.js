@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useMemo } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import HomeScreen from './Screens/HomeScreen';
 import DetailsScreen from './Screens/DetailsScreen';
@@ -7,72 +7,85 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Colors } from './constants/Colors';
 import { AuthContext } from './components/context';
-import { config } from "./config/config";
+import { config } from './config/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function App() {
-
+  const [isLogin, setIsLogin] = useState(false)
   const MainStack = createStackNavigator();
 
 
-  const initialLoginState = {
+  const initialState = {
     isLoading: true,
-    userName: null,
-    userToken: null
+    isLogin: false,
+    user: {}
   }
+
 
   const loginReducer = (prevState, action) => {
     switch (action.type) {
-      case 'RETRIEVE_TOKEN':
-        return {
-          ...prevState,
-          userToken: action.token,
-          isLoading: false
-        };
       case 'LOGIN':
+        // console.clear
+        // console.log('case LOGIN:Paylaod', action.payload)
+        // console.log('case LOGIN:prevState', prevState)
         return {
           ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isLoading: false
+          isLoading: false,
+          isLogin: true,
+          user: action.payload
         };
       case 'LOGOUT':
         return {
           ...prevState,
-          userName: null,
-          userToken: null,
-          isLoading: false
+          isLoading: false,
+          isLogin: false,
+          user: {}
         };
+      default:
+        return prevState;
     }
   }
 
-  const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
+
+
+
+  const [loginState, dispatch] = useReducer(loginReducer, initialState)
 
   const authContext = useMemo(() => ({
 
-    signIn: (username, password) => {
-      console.log(username, password)
-      fetch(`${config.SERVER.URL}/api/auth/signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username,
-          password
+    signIn: async (username, password) => {
+      try {
+        const response = await fetch(`${config.SERVER.URL}/api/auth/signin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username,
+            password
+          })
         })
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          dispatch({ type: 'LOGIN', id: userName, token: userToken })
-        })
-        .catch(err => console.log('err::', err))
+        if (!response) throw new Error('Server Error')
+        const data = await response.json()
+        await AsyncStorage.setItem('userToken', data.accessToken)
+        dispatch({ type: 'LOGIN', payload: data })
+        // const result = await AsyncStorage.getItem('userToken')
+        // console.log(data)
+      }
+      catch (err) {
+        console.log(err)
+      }
     },
     signOut: () => {
       dispatch({ type: 'LOGOUT' })
     }
-  }));
+  }), []);
 
+
+  useEffect(() => {
+    setIsLogin(loginState.isLogin)
+  }, [loginState])
   // useEffect(() => {
   //   dispatch({ type: 'RETRIEVE_TOKEN', token: 'kkdkdk' })
   // }, [])
@@ -88,19 +101,19 @@ export default function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {loginState.userToken
-          ? <MainStack.Navigator>
-            <MainStack.Screen name="HomeScreen" component={HomeScreen} options={{
-              title: "Home",
-              headerTitleAlign: 'center',
-              headerTintColor: Colors.title
-            }} />
-            <MainStack.Screen name="DetailsScreen" component={DetailsScreen} options={{
-              title: "Details",
-              headerTitleAlign: 'center',
-              headerTintColor: Colors.title
-            }} />
-          </MainStack.Navigator>
+
+        {false ? (<MainStack.Navigator>
+          <MainStack.Screen name="HomeScreen" component={HomeScreen} options={{
+            title: "Home",
+            headerTitleAlign: 'center',
+            headerTintColor: Colors.title
+          }} />
+          <MainStack.Screen name="DetailsScreen" component={DetailsScreen} options={{
+            title: "Details",
+            headerTitleAlign: 'center',
+            headerTintColor: Colors.title
+          }} />
+        </MainStack.Navigator>)
 
           : <RootStackScreen />
         }
